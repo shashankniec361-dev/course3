@@ -1,0 +1,47 @@
+
+"""Mathematical-consistency validator.
+
+The extractor pulls two redundant values from any line-itemized total: the
+calculated sum (computed in Python from the per-component fields) and the
+stated total (extracted verbatim from the document). When the document is
+internally inconsistent, the discrepancy is surfaced for human review.
+"""
+from __future__ import annotations
+
+from mortgage_extractor.config import DEFAULT_TOLERANCE_USD
+from mortgage_extractor.models import (
+    Discrepancy,
+    MortgageExtraction,
+    ValidationReport,
+)
+
+
+def validate(
+    extraction: MortgageExtraction,
+    *,
+    tolerance: float = DEFAULT_TOLERANCE_USD,
+) -> ValidationReport:
+    """Return a consistency report for the extraction."""
+    discrepancies: list[Discrepancy] = []
+
+    if extraction.income is not None:
+        calculated = extraction.income.calculated_monthly_total
+        stated = extraction.income.stated_monthly_total
+
+        if calculated is not None and stated is not None:
+            delta = round(calculated - stated, 2)
+
+            if abs(delta) > tolerance:
+                discrepancies.append(
+                    Discrepancy(
+                        field="total_monthly_income",
+                        calculated=round(calculated, 2),
+                        stated=round(stated, 2),
+                        delta=delta,
+                    )
+                )
+
+    return ValidationReport(
+        consistent=not discrepancies,
+        discrepancies=discrepancies,
+    )

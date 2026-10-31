@@ -1,0 +1,19 @@
+/workspace/Build a Validated, Routed Insurance Policy Extraction Pipeline/04-hitl-routing/starter/.venv/lib/python3.13/site-packages/pytest_asyncio/plugin.py:300: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the "fixture" caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to "function" scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+============================= test session starts ==============================
+platform linux -- Python 3.13.0, pytest-9.2.0, pluggy-1.7.0 -- /workspace/Build a Validated, Routed Insurance Policy Extraction Pipeline/04-hitl-routing/starter/.venv/bin/python3.13
+cachedir: .pytest_cache
+rootdir: /workspace/Build a Validated, Routed Insurance Policy Extraction Pipeline/04-hitl-routing/starter
+configfile: pyproject.toml
+plugins: asyncio-1.4.1, anyio-4.15.1
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 9 items / 5 deselected / 4 selected
+
+tests/test_us04_routing.py::test_ac_04_06_high_confidence_plus_reviewer_disagreement_still_routes_to_human_review PASSED [ 25%]
+tests/test_us04_routing.py::test_ac_04_03_only_auto_approve_decisions_are_eligible_for_spot_check PASSED [ 50%]
+tests/test_us04_routing.py::test_ac_04_04_calibration_report_is_sliced_by_policy_type_and_field PASSED [ 75%]
+tests/test_us04_routing.py::test_ac_04_04_calibration_report_handles_empty_input PASSED [100%]
+
+======================= 4 passed, 5 deselected in 0.03s ========================

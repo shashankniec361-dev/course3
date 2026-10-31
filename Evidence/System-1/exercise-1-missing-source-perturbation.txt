@@ -1,0 +1,17 @@
+/workspace/Build a Validated, Routed Insurance Policy Extraction Pipeline/01-retry-with-error-feedback/starter/.venv/lib/python3.13/site-packages/pytest_asyncio/plugin.py:300: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the "fixture" caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to "function" scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+============================= test session starts ==============================
+platform linux -- Python 3.13.0, pytest-9.2.0, pluggy-1.7.0 -- /workspace/Build a Validated, Routed Insurance Policy Extraction Pipeline/01-retry-with-error-feedback/starter/.venv/bin/python3.13
+cachedir: .pytest_cache
+rootdir: /workspace/Build a Validated, Routed Insurance Policy Extraction Pipeline/01-retry-with-error-feedback/starter
+configfile: pyproject.toml
+plugins: asyncio-1.4.1, anyio-4.15.1
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 14 items / 12 deselected / 2 selected
+
+tests/test_us01_retry.py::test_ac_01_02_validator_flags_null_required_as_missing_source PASSED [ 50%]
+tests/test_us01_retry.py::test_ac_01_04_missing_source_halts_immediately PASSED [100%]
+
+======================= 2 passed, 12 deselected in 0.04s =======================

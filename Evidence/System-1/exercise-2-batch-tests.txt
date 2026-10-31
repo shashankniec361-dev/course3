@@ -1,0 +1,27 @@
+/workspace/Build a Validated, Routed Insurance Policy Extraction Pipeline/02-batch-and-sla/starter/.venv/lib/python3.13/site-packages/pytest_asyncio/plugin.py:300: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the "fixture" caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to "function" scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+============================= test session starts ==============================
+platform linux -- Python 3.13.0, pytest-9.2.0, pluggy-1.7.0 -- /workspace/Build a Validated, Routed Insurance Policy Extraction Pipeline/02-batch-and-sla/starter/.venv/bin/python3.13
+cachedir: .pytest_cache
+rootdir: /workspace/Build a Validated, Routed Insurance Policy Extraction Pipeline/02-batch-and-sla/starter
+configfile: pyproject.toml
+plugins: asyncio-1.4.1, anyio-4.15.1
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 12 items
+
+tests/test_us02_batch.py::test_ac_02_04_submission_frequency_meets_sla PASSED [  8%]
+tests/test_us02_batch.py::test_ac_02_04_submission_frequency_raises_when_sla_below_batch_eta PASSED [ 16%]
+tests/test_us02_batch.py::test_ac_02_04_submission_frequency_clamps_to_minimum_one_per_day PASSED [ 25%]
+tests/test_us02_batch.py::test_ac_02_01_submitter_attaches_custom_id_per_policy PASSED [ 33%]
+tests/test_us02_batch.py::test_ac_02_02_poller_returns_results_keyed_by_custom_id PASSED [ 41%]
+tests/test_us02_batch.py::test_ac_02_03_errored_items_resubmitted_in_one_followup_batch PASSED [ 50%]
+tests/test_us02_batch.py::test_ac_02_03_persistent_errors_after_resubmission_are_returned_as_escalation PASSED [ 58%]
+tests/test_us02_batch.py::test_ac_02_05_format_failure_triggers_resubmission_with_error_feedback PASSED [ 66%]
+tests/test_us02_batch.py::test_ac_02_05_missing_source_escalates_immediately_no_resubmission PASSED [ 75%]
+tests/test_us02_batch.py::test_ac_02_06_dry_run_sample_returns_success_rate_and_pattern_summary PASSED [ 83%]
+tests/test_us02_batch.py::test_ac_02_06_dry_run_sample_caps_at_input_size PASSED [ 91%]
+tests/test_us02_batch.py::test_live_dry_run_sample_against_real_api SKIPPED [100%]
+
+======================== 11 passed, 1 skipped in 0.06s =========================

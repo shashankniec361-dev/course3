@@ -1,0 +1,29 @@
+/workspace/Build a Validated, Routed Insurance Policy Extraction Pipeline/01-retry-with-error-feedback/starter/.venv/lib/python3.13/site-packages/pytest_asyncio/plugin.py:300: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the "fixture" caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to "function" scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+============================= test session starts ==============================
+platform linux -- Python 3.13.0, pytest-9.2.0, pluggy-1.7.0 -- /workspace/Build a Validated, Routed Insurance Policy Extraction Pipeline/01-retry-with-error-feedback/starter/.venv/bin/python3.13
+cachedir: .pytest_cache
+rootdir: /workspace/Build a Validated, Routed Insurance Policy Extraction Pipeline/01-retry-with-error-feedback/starter
+configfile: pyproject.toml
+plugins: asyncio-1.4.1, anyio-4.15.1
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 14 items
+
+tests/test_us01_retry.py::test_ac_01_01_extract_tool_has_required_fields PASSED [  7%]
+tests/test_us01_retry.py::test_ac_01_01_policy_type_uses_resilient_catchall_enum PASSED [ 14%]
+tests/test_us01_retry.py::test_ac_01_01_system_prompt_instructs_null_for_unstated_fields PASSED [ 21%]
+tests/test_us01_retry.py::test_ac_01_01_extractor_parses_well_formed_response PASSED [ 28%]
+tests/test_us01_retry.py::test_ac_01_02_validator_flags_negative_premium_as_format PASSED [ 35%]
+tests/test_us01_retry.py::test_ac_01_02_validator_flags_null_required_as_missing_source PASSED [ 42%]
+tests/test_us01_retry.py::test_ac_01_02_validator_flags_consistency_premium_mismatch PASSED [ 50%]
+tests/test_us01_retry.py::test_ac_01_02_validator_accepts_well_formed PASSED [ 57%]
+tests/test_us01_retry.py::test_ac_01_03_format_failure_retries_with_error_appended PASSED [ 64%]
+tests/test_us01_retry.py::test_ac_01_03_consistency_failure_also_retries PASSED [ 71%]
+tests/test_us01_retry.py::test_ac_01_04_missing_source_halts_immediately PASSED [ 78%]
+tests/test_us01_retry.py::test_ac_01_05_success_metadata_after_retry PASSED [ 85%]
+tests/test_us01_retry.py::test_ac_01_06_pattern_summary_counts_across_runs PASSED [ 92%]
+tests/test_us01_retry.py::test_live_extracts_well_formed_policy SKIPPED  [100%]
+
+======================== 13 passed, 1 skipped in 0.05s =========================
