@@ -1,0 +1,14 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.0, pytest-9.2.0, pluggy-1.7.0 -- /workspace/Build a Resilient Mortgage Document Extraction System/03-write-extractor-system-prompt/starter/.venv/bin/python3.13
+cachedir: .pytest_cache
+rootdir: /workspace/Build a Resilient Mortgage Document Extraction System/03-write-extractor-system-prompt/starter
+configfile: pyproject.toml
+plugins: anyio-4.16.0
+collecting ... collected 6 items / 2 deselected / 4 selected
+
+tests/test_us03_prompts.py::test_ac_03_01_system_prompt_has_numbered_criteria_with_verbatim_first PASSED [ 25%]
+tests/test_us03_prompts.py::test_ac_03_02_four_contrastive_examples PASSED [ 50%]
+tests/test_us03_prompts.py::test_ac_03_02b_each_example_has_inline_reasoning PASSED [ 75%]
+tests/test_us03_prompts.py::test_ac_03_05_normalization_rules_is_single_referenced_constant PASSED [100%]
+
+======================= 4 passed, 2 deselected in 1.74s ========================

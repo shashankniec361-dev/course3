@@ -39,9 +39,7 @@ def read_audit(path: str | Path) -> ReaderResult:
             error=FailureContext(
                 failure_type="file_not_found",
                 attempted=f"open {path}",
-                alternatives=[
-                    "request the audit report from the supplier"
-                ],
+                alternatives=["request the audit report from the supplier"],
             ),
         )
 
@@ -65,18 +63,13 @@ def read_audit(path: str | Path) -> ReaderResult:
         for metric in doc["metrics"]
     ]
 
-    return ReaderResult(
-        source=AUDIT,
-        ok=True,
-        claims=claims,
-    )
+    return ReaderResult(source=AUDIT, ok=True, claims=claims)
 
 
 def _logistics_claims(rows: list[dict[str, str]]) -> list[Claim]:
     """Calculate logistics metrics from shipment rows."""
     collection = max(
-        date.fromisoformat(row["collection_date"])
-        for row in rows
+        date.fromisoformat(row["collection_date"]) for row in rows
     )
 
     on_time = sum(
@@ -128,9 +121,7 @@ def _logistics_claims(rows: list[dict[str, str]]) -> list[Claim]:
             unit="days",
         ),
         Claim(
-            claim=(
-                f"{late} of {len(rows)} shipments were late this quarter."
-            ),
+            claim=f"{late} of {len(rows)} shipments were late this quarter.",
             evidence=(
                 f"Count of rows with on_time=false over "
                 f"{len(rows)} shipment records."
@@ -156,8 +147,8 @@ def read_logistics(
 ) -> ReaderResult:
     """Derive delivery metrics from the semi-structured shipment CSV.
 
-    fail_after simulates a source timeout after reading that many rows.
-    The reader returns partial claims in FailureContext instead of raising.
+    fail_after simulates a timeout after the specified number of rows.
+    Partial claims are preserved in FailureContext; the reader does not raise.
     """
     path = Path(path)
 
@@ -178,20 +169,12 @@ def read_logistics(
         rows = list(csv.DictReader(fh))
 
     if not rows:
-        return ReaderResult(
-            source=LOGISTICS,
-            ok=True,
-            claims=[],
-        )
+        return ReaderResult(source=LOGISTICS, ok=True, claims=[])
 
-    # Simulate a timeout after the requested number of rows.
     if fail_after is not None and len(rows) > fail_after:
         partial_rows = rows[:fail_after]
-
         partial_claims = (
-            _logistics_claims(partial_rows)
-            if partial_rows
-            else []
+            _logistics_claims(partial_rows) if partial_rows else []
         )
 
         return ReaderResult(
@@ -239,7 +222,6 @@ def read_quality(path: str | Path) -> ReaderResult:
 
     try:
         conn.row_factory = sqlite3.Row
-
         rows = conn.execute(
             "SELECT metric_id, label, value, unit, recorded_date, statement "
             "FROM quality_metrics"
@@ -250,9 +232,7 @@ def read_quality(path: str | Path) -> ReaderResult:
     claims = [
         Claim(
             claim=row["statement"],
-            evidence=(
-                f"{row['label']}: {row['value']} {row['unit']}"
-            ),
+            evidence=f"{row['label']}: {row['value']} {row['unit']}",
             source=QUALITY,
             source_date=date.fromisoformat(row["recorded_date"]),
             confidence=0.88,
@@ -263,24 +243,13 @@ def read_quality(path: str | Path) -> ReaderResult:
         for row in rows
     ]
 
-    return ReaderResult(
-        source=QUALITY,
-        ok=True,
-        claims=claims,
-    )
+    return ReaderResult(source=QUALITY, ok=True, claims=claims)
 
 
 class NewsExtractor(Protocol):
-    """Extract structured claim dictionaries from article prose.
+    """Extract structured claim dictionaries from article prose."""
 
-    Implemented by AnthropicNewsExtractor at runtime and by a recorded
-    fixture extractor in tests.
-    """
-
-    def extract(
-        self,
-        article_text: str,
-    ) -> list[dict[str, object]]:
+    def extract(self, article_text: str) -> list[dict[str, object]]:
         ...
 
 
@@ -290,11 +259,10 @@ def read_news(
 ) -> ReaderResult:
     """Extract Claims from an unstructured news article.
 
-    A readable article that yields no supplier-relevant claims returns
-    ok=True with an empty claims list. A missing file returns ok=False.
+    A readable article with no supplier-relevant claims returns ok=True
+    with an empty claims list. A missing file returns ok=False.
 
-    Ambiguous entity matches are preserved using needs_identifier and
-    candidates rather than being resolved heuristically.
+    Ambiguous entity matches are preserved rather than resolved heuristically.
     """
     path = Path(path)
 
@@ -305,36 +273,42 @@ def read_news(
             error=FailureContext(
                 failure_type="file_not_found",
                 attempted=f"open {path}",
-                alternatives=[
-                    "re-fetch the article from the news source"
-                ],
+                alternatives=["re-fetch the article from the news source"],
             ),
         )
 
     raw = extractor.extract(path.read_text())
+    claims: list[Claim] = []
 
-    claims = [
-        Claim(
-            claim=str(item["claim"]),
-            evidence=str(item["evidence"]),
-            source=NEWS,
-            source_date=date.fromisoformat(
-                str(item["source_date"])
-            ),
-            confidence=float(item["confidence"]),  # type: ignore[arg-type]
-            metric_id=str(item["metric_id"]),
-            needs_identifier=bool(
-                item.get("needs_identifier", False)
-            ),
-            candidates=tuple(
-                item.get("candidates", []) or ()
-            ),  # type: ignore[arg-type]
+    for item in raw:
+        raw_confidence = item["confidence"]
+
+        if not isinstance(raw_confidence, (int, float)):
+            raise TypeError("News claim confidence must be numeric")
+
+        raw_candidates = item.get("candidates")
+        candidates: tuple[str, ...] = ()
+
+        if isinstance(raw_candidates, list):
+            candidates = tuple(
+                candidate
+                for candidate in raw_candidates
+                if isinstance(candidate, str)
+            )
+
+        claims.append(
+            Claim(
+                claim=str(item["claim"]),
+                evidence=str(item["evidence"]),
+                source=NEWS,
+                source_date=date.fromisoformat(str(item["source_date"])),
+                confidence=float(raw_confidence),
+                metric_id=str(item["metric_id"]),
+                needs_identifier=bool(
+                    item.get("needs_identifier", False)
+                ),
+                candidates=candidates,
+            )
         )
-        for item in raw
-    ]
 
-    return ReaderResult(
-        source=NEWS,
-        ok=True,
-        claims=claims,
-    )
+    return ReaderResult(source=NEWS, ok=True, claims=claims)

@@ -1,0 +1,44 @@
+# Supply Chain Risk Briefing — Meridian
+
+> Sources unavailable: logistics
+
+## Well-Established
+### average_lead_time_days  _[single source only]_
+- Reported values by source:
+    - 12.0 days — supplier_audit (as of 2026-04-10)
+
+### defect_rate_ppm  _[corroborated across 2 sources]_
+- Reported values by source:
+    - 180.0 ppm — supplier_audit (as of 2026-04-10)
+    - 190.0 ppm — internal_quality (as of 2026-04-08)
+
+### field_quality_concern  _[single source only]_
+> Meridian Components issued a voluntary precautionary recall of a single capacitor-assembly lot in Q1 2026 over potential elevated leakage current under thermal stress. (industry_news, 2026-02-19)
+
+### field_return_rate  _[single source only]_
+- Reported values by source:
+    - 1.4 percent — internal_quality (as of 2026-04-08)
+
+### on_time_delivery_rate  _[single source only]_
+- Reported values by source:
+    - 95.0 percent — supplier_audit (as of 2026-04-10)
+
+### port_disruption  _[single source only]_
+> A 72-hour dockworker strike at the Port of Long Beach beginning March 16, 2026 stranded Meridian Components' inbound container shipments, delaying customer deliveries by an estimated five to nine days. (industry_news, 2026-03-17)
+
+### supplier_financial_distress  _[single source only]_  ⚠️ ESCALATE
+- escalation: ambiguous supplier identity — request an identifier
+> A company named 'Meridian' is facing supplier financial distress, having drawn down emergency credit, missed subcontractor payments, and retained restructuring advisers. (industry_news, 2026-03-09)
+
+
+## Contested
+_none_
+
+## Incomplete
+### late_shipment_count  _[missing source: logistics unavailable: timeout]_
+- missing source: logistics unavailable: timeout
+
+### production_capacity_utilization  _[missing source: no source reported this metric]_  ⚠️ ESCALATE
+- escalation: high-impact metric has no usable source
+- missing source: no source reported this metric
+

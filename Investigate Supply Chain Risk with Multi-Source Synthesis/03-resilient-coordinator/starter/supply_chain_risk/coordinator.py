@@ -18,7 +18,6 @@ from .readers import (
 )
 from .synthesis import Briefing, build_briefing
 
-
 EXCLUSIVE_METRICS = {
     "logistics": LOGISTICS_EXCLUSIVE_METRICS,
 }
